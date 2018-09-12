@@ -12,7 +12,14 @@ $(function(){
         searchCity = $('#city_name').val().toLowerCase();
         loadData();
     });
-    console.log(searchCity);
+
+    function clearData(){
+        temp_min=[];
+        temp_max=[];
+        time=[];
+        list = [];
+    }
+    //console.log(searchCity);
     //Call 5 day / 3 hour forecast data
     function loadData(){
         $.ajax({
@@ -21,6 +28,8 @@ $(function(){
             crossDomain: true,
             dataType: 'jsonp',
             success: function(result){
+                console.log(result);
+                clearData();
                 city = result['city']['name'];
                 if(result['cod'] === '200'){
                     list = $.merge([],result['list']);
@@ -29,8 +38,8 @@ $(function(){
                         temp_max.push(val['main']['temp_max']);
                         time.push(val['dt_txt']);
                     });
-                    console.log(typeof temp_min[0]);
-                    console.log(list);
+                    // console.log(typeof temp_min[0]);
+                     console.log(temp_max[temp_max.length-1]);
                 }else{
                     alert("error");
                 }
@@ -56,7 +65,7 @@ $(function(){
             arr = [time[size-i], temp_max[size-i]];
             rows.push(arr);
         }
-        console.log(rows);
+        //console.log(rows);
         data.addRows(rows);
         // data.addRows([
         //     [time[size-6], temp_max[size-6]],
